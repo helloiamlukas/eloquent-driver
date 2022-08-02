@@ -11,7 +11,7 @@ class EntryQueryBuilder extends EloquentQueryBuilder implements QueryBuilder
 {
     use QueriesTaxonomizedEntries;
 
-    protected $columns = [
+    const COLUMNS = [
         'id', 'site', 'origin_id', 'published', 'status', 'slug', 'uri',
         'date', 'collection', 'created_at', 'updated_at',
     ];
@@ -29,7 +29,7 @@ class EntryQueryBuilder extends EloquentQueryBuilder implements QueryBuilder
             $column = 'origin_id';
         }
 
-        if (! in_array($column, $this->columns)) {
+        if (! in_array($column, self::COLUMNS)) {
             $column = 'data->'.$column;
         }
 
@@ -43,7 +43,7 @@ class EntryQueryBuilder extends EloquentQueryBuilder implements QueryBuilder
         return parent::get($columns);
     }
 
-    public function paginate($perPage = null, $columns = ['*'])
+    public function paginate($perPage = null, $columns = ['*'], $pageName = 'page', $page = null)
     {
         $this->addTaxonomyWheres();
 
